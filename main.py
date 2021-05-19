@@ -85,8 +85,6 @@ class KMeans:
                 clusters[clusterNr].append(pair) #append the coords to the closest cluster
                 prev_centroids = copy.deepcopy(centroids) #Create copy of centroids dict.
 
-            print(clusters)
-            break
             #Re-compute centroids of each cluster
             for l in centroids:
                 c_x = 0
@@ -116,4 +114,4 @@ class KMeans:
 
 derp = KMeans()
 derp.fit()
-#derp.drawScatter()
+derp.drawScatter()
