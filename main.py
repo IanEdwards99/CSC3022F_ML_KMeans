@@ -1,3 +1,6 @@
+#Author: Ian Edwards EDWIAN004
+#CSC3022F ML Assignment 1
+#Date: 21/05/2021
 import math
 import numpy as np
 import matplotlib.pyplot as plt
@@ -50,6 +53,9 @@ class KMeans:
         plt.scatter(x,y, c='r')
         x,y = mydata[2].T
         plt.scatter(x,y, c='y')
+        plt.title("Scatter of data after clustering algorithm has been run.")
+        plt.xlabel("x axis")
+        plt.ylabel("y axis")
 
 
         totaldata = []
@@ -60,14 +66,20 @@ class KMeans:
         plot2 = plt.figure(2)
         x, y = totaldata.T
         plt.scatter(x,y, c = 'g')
+        plt.title("Scatter of data before clustering algorithm has been run.")
+        plt.xlabel("x axis")
+        plt.ylabel("y axis")
         plt.show()
 
     def fit(self):
         f = open("K-means.txt", "w")
-        f.close()
         if self.k == 3:
             centroids = {1: [2,10],2: [5,8],3: [1,2]} #setup initital centroid dict
+            for i in centroids:
+                f.write("Centroid " + str(i) + ": (" + str(round(centroids[i][0], 2)) + ", " + str(round(centroids[i][1],2)) + ")"+"\n")
         else: centroids = {} #if K != 3, still have a dict. Can have loop hereafter, to loop through first K elements and add to centroid dict.
+        f.write("Clusters are empty.\n\n")
+        f.close()
 
         #Now to start clustering:
         for i in range(1, self.iterations): #Repeat a certain number of times.
@@ -106,8 +118,7 @@ class KMeans:
                     stopCritMet = False
 
             if stopCritMet == True:
-                print("Convergence reached.")
-                break
+                return self.iterations, clusters, centroids
 
         return self.iterations, clusters, centroids
 
