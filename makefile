@@ -7,7 +7,7 @@ venv :
 clean:
 	rm -rf venv
 	find -iname "*.pyc" -delete
-	rm *.txt
+	rm K-means.txt
 
 test:
-	. venv/bin/activate; python3 simple_graph.py
+	. venv/bin/activate; python3 main.py

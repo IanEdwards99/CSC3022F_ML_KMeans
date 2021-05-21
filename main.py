@@ -14,20 +14,20 @@ class KMeans:
         self.tol = tol
 
 
-    def getDistance(self, pair1, pair2):
+    def getDistance(self, pair1, pair2): #Calculate distance between two points. Could have used math.dist() or numpy.linalg.norm()
         return math.sqrt((pair1[0]-pair2[0])**2 + (pair1[1]-pair2[1])**2)
 
-    def writeToFile(self, iteration, clusters, centroids):
+    def writeToFile(self, iteration, clusters, centroids): #Function to handle file writing.
         f = open("K-means.txt", "a")
         f.write("Iteration " + str(iteration)+"\n\n")
-        for i in clusters:
+        for i in clusters: #loop through and get a single cluster at a time
             output = "Cluster " + str(i) + ": "
-            for j in range(0, len(clusters[i])):
-                feature = clusters[i][j]
-                key_list = list(data.keys())
-                val_list = list(data.values())
-                pos = val_list.index(feature)
-                key = key_list[pos]
+            for j in range(0, len(clusters[i])):  #loop through single cluster, feature by feature
+                feature = clusters[i][j] #Get the feature, but example number must be printed out...
+                key_list = list(data.keys()) #generate a list from the keys of the dictionary.
+                val_list = list(data.values()) #generate a list form the values of the dictionary
+                pos = val_list.index(feature) #get the position in the list of the pair/feature found.
+                key = key_list[pos] #Get the example number of the feature found.
                 if j == len(clusters[i])-1:
                     output = output + str(key)
                 else: output = output + str(key) + ", "
@@ -38,7 +38,7 @@ class KMeans:
 
         f.close()
 
-    def drawScatter(self):
+    def drawScatter(self): #function to plot data. Only works for specific case of k=3.
         iterations, clusters, centroids = self.fit()
         mydata = []
         for i in clusters:
@@ -66,8 +66,8 @@ class KMeans:
         f = open("K-means.txt", "w")
         f.close()
         if self.k == 3:
-            centroids = {1: [2,10],2: [5,8],3: [1,2]} #setup centroid dict
-        else: centroids = {}
+            centroids = {1: [2,10],2: [5,8],3: [1,2]} #setup initital centroid dict
+        else: centroids = {} #if K != 3, still have a dict. Can have loop hereafter, to loop through first K elements and add to centroid dict.
 
         #Now to start clustering:
         for i in range(1, self.iterations): #Repeat a certain number of times.
@@ -97,7 +97,7 @@ class KMeans:
                     centroids[l][0] = c_x/len(clusters[l])
                     centroids[l][1] = c_y/len(clusters[l])
             
-            self.writeToFile(i, clusters, centroids)
+            self.writeToFile(i, clusters, centroids) #output current iteration data to textfile.
 
             stopCritMet = True
             for k in centroids:
@@ -106,12 +106,12 @@ class KMeans:
                     stopCritMet = False
 
             if stopCritMet == True:
-                #print("Done")
+                print("Convergence reached.")
                 break
 
         return self.iterations, clusters, centroids
 
 
-derp = KMeans()
-derp.fit()
-derp.drawScatter()
+derp = KMeans() #create Kmeans class
+derp.fit() #call the fit function.
+derp.drawScatter() #draw plots.
